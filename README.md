@@ -2,7 +2,7 @@
 
 ## Description
 Simple API for interacting with HydraDX chain.
-Mostly support for easily querying storage.
+Mostly support for easy storage querying.
 Other features might be added in the future.
 
 ## Installation
@@ -15,11 +15,11 @@ pip install hydradx-api
 RPC="ws://127.0.0.1:9944"
 
 from hydradx import HydraDX
-hydradx_api = HydraDX(RPC) 
-hydradx_api.connect()
-state = hydradx_api.api.omnipool.asset_state(0)
+chain = HydraDX(RPC) 
+chain .connect()
+state = chain.api.omnipool.asset_state(0)
 ...
-hydradx_api.close()
+chain.close()
 
 ```
 
@@ -29,8 +29,8 @@ or taking advantage of context manager:
 RPC="ws://127.0.0.1:9944"
 
 from hydradx import HydraDX
-with HydraDX(RPC) as hydradx_api:
-    state = hydradx_api.api.omnipool.asset_state(0)
+with HydraDX(RPC) as chain:
+    state = chain.api.omnipool.asset_state(0)
     ...
 
 ```
