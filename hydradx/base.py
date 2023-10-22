@@ -18,6 +18,10 @@ class HydraDX:
         self.close()
 
     def connect(self):
+        """
+
+        :return:
+        """
         self._client = Client(self.url)
         self._api = API(self._client)
 

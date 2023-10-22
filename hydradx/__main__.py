@@ -16,10 +16,22 @@ def omnipool():
 
 
 @omnipool.command(name="asset")
-def asset():
+@click.argument("asset_id")
+def asset(asset_id):
+    if int(asset_id) == 1:
+        print("LRNA asset does not have a state")
+        return
     hydra = HydraDX(HYDRA_MAINNET)
     with hydra:
-        print(hydra.api.omnipool.position(2719))
+        print(hydra.api.omnipool.asset_state(asset_id))
+
+
+@omnipool.command(name="position")
+@click.argument("position_id")
+def position(position_id):
+    hydra = HydraDX(HYDRA_MAINNET)
+    with hydra:
+        print(hydra.api.omnipool.position(position_id))
 
 
 app.add_command(omnipool)

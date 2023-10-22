@@ -1,9 +1,12 @@
 [tool.poetry]
 name = "hydradx-api"
-version = "0.1.0"
+version = "0.1.1"
 description = "HydraDX interface"
 authors = ["Martin Hloska <martin.hloska@gmail.com>"]
 license = "MIT OR Apache-2.0"
+packages = [
+    {include = "hydradx"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
