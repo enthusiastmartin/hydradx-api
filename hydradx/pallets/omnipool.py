@@ -30,6 +30,8 @@ class AssetState:
             entry["tradable"],
             asset_id,
         )
+    def __str__(self):
+        return f"Asset: {self.asset_id}\n\tReserve: {self.reserve}\n\tLRNA: {self.hub_reserve}\n\tShares: {self.shares}\n\tProtocol: {self.protocol_shares}"
 
 
 @dataclass
