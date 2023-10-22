@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "hydradx-api"
+version = "0.1.0"
+description = "HydraDX interface"
+authors = ["Martin Hloska <martin.hloska@gmail.com>"]
+license = "MIT OR Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+substrate-interface = "^1.7.4"
+pytest = "^7.4.2"
+click = "^8.1.7"
+
+[tool.poetry.dev-dependencies]
+black = "^23.10.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
