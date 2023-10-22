@@ -1,7 +1,7 @@
-# HydraDX interface
+# HydraDX interface for python
 
 ## Description
-Simple API for interacting with HydraDX chain.
+Simple API for interacting with HydraDX chain in python.
 Mostly support for easy storage querying.
 Other features might be added in the future.
 
@@ -16,7 +16,7 @@ RPC="ws://127.0.0.1:9944"
 
 from hydradx import HydraDX
 chain = HydraDX(RPC) 
-chain .connect()
+chain.connect()
 state = chain.api.omnipool.asset_state(0)
 ...
 chain.close()
