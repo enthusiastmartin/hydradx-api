@@ -24,6 +24,6 @@ class DynamicFees(Pallet):
         print(entry)
         return Fees(
             entry["asset_fee"].value / 10_000,
-            entry["protocol_fee"].value / 100_000,
+            entry["protocol_fee"].value / 10_000,
             int(entry["timestamp"].value),
         )
