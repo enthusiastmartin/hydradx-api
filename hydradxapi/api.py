@@ -1,3 +1,4 @@
+from hydradxapi.pallets.fees import DynamicFees
 from hydradxapi.pallets.omnipool import Omnipool
 
 
@@ -12,3 +13,7 @@ class API:
     @property
     def omnipool(self):
         return Omnipool(self._client)
+
+    @property
+    def fees(self):
+        return DynamicFees(self._client)

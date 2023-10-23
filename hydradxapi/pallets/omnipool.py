@@ -30,6 +30,7 @@ class AssetState:
             entry["tradable"],
             asset_id,
         )
+
     def __str__(self):
         return f"Asset: {self.asset_id}\n\tReserve: {self.reserve}\n\tLRNA: {self.hub_reserve}\n\tShares: {self.shares}\n\tProtocol: {self.protocol_shares}"
 
@@ -64,7 +65,7 @@ class Omnipool(Pallet):
         entry = self.query_entry(
             self.MODULE_NAME, self.ASSET_STATE_STORAGE, params=[asset_id]
         )
-        if asset_id == 0:
+        if int(asset_id) == 0:
             reserve = self._balances.account_free_balance(self.ACCOUNT)
         else:
             reserve = self._tokens.account_free_balance(self.ACCOUNT, asset_id)

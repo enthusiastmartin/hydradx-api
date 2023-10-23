@@ -34,6 +34,14 @@ def position(position_id):
         print(hydra.api.omnipool.position(position_id))
 
 
+@omnipool.command(name="fees")
+@click.argument("asset_id")
+def position(asset_id):
+    hydra = HydraDX(HYDRA_MAINNET)
+    with hydra:
+        print(hydra.api.fees.asset_fees(asset_id))
+
+
 app.add_command(omnipool)
 
 app()
