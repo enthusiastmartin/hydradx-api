@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from typing import Optional, TYPE_CHECKING
 
-from hydradx.pallets import Pallet
-from hydradx.pallets.balances import Balances
-from hydradx.pallets.tokens import Tokens
+from hydradxapi.pallets import Pallet
+from hydradxapi.pallets.balances import Balances
+from hydradxapi.pallets.tokens import Tokens
 
 if TYPE_CHECKING:
-    from hydradx.client import Client
+    from hydradxapi.client import Client
 
 
 @dataclass

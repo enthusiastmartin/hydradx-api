@@ -1,4 +1,4 @@
-from hydradx.pallets import Pallet
+from hydradxapi.pallets import Pallet
 
 
 class Tokens(Pallet):

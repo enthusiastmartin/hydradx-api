@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from hydradx.client import Client
+    from hydradxapi.client import Client
 
 
 class Pallet:

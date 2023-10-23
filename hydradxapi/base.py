@@ -1,5 +1,5 @@
-from hydradx.api import API
-from hydradx.client import Client
+from hydradxapi.api import API
+from hydradxapi.client import Client
 
 __all__ = ["HydraDX"]
 

@@ -1,4 +1,4 @@
-from hydradx.pallets.omnipool import Omnipool
+from hydradxapi.pallets.omnipool import Omnipool
 
 
 class API:

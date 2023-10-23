@@ -1,6 +1,6 @@
 import click
 
-from hydradx import HydraDX
+from hydradxapi import HydraDX
 
 HYDRA_MAINNET = "wss://hydradx-rpc.dwellir.com"
 

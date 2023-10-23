@@ -11,15 +11,17 @@ pip install hydradx-api
 ```
 
 ## Usage
-```python
-RPC="ws://127.0.0.1:9944"
 
-from hydradx import HydraDX
-chain = HydraDX(RPC) 
+```python
+RPC = "ws://127.0.0.1:9944"
+
+from hydradxapi import HydraDX
+
+chain = HydraDX(RPC)
 chain.connect()
 state = chain.api.omnipool.asset_state(0)
 print(state)
-#Asset: 0
+# Asset: 0
 #	Reserve: 0
 #	LRNA: 20220634396578953
 #	Shares: 40600077930826935893
@@ -31,13 +33,14 @@ chain.close()
 or taking advantage of context manager:
 
 ```python
-RPC="ws://127.0.0.1:9944"
+RPC = "ws://127.0.0.1:9944"
 
-from hydradx import HydraDX
+from hydradxapi import HydraDX
+
 with HydraDX(RPC) as chain:
     state = chain.api.omnipool.asset_state(0)
     print(state)
-    #Asset: 0
+    # Asset: 0
     #	Reserve: 0
     #	LRNA: 20220634396578953
     #	Shares: 40600077930826935893

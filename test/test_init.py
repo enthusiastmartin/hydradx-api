@@ -1,4 +1,4 @@
-from hydradx import HydraDX
+from hydradxapi import HydraDX
 
 
 def test_hydradx_init():
