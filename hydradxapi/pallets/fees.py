@@ -21,7 +21,6 @@ class DynamicFees(Pallet):
 
     def asset_fees(self, asset_id) -> Fees:
         entry = self.query_entry(self.MODULE_NAME, "AssetFee", params=[asset_id])
-        print(entry)
         return Fees(
             entry["asset_fee"].value / 10_000,
             entry["protocol_fee"].value / 10_000,

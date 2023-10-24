@@ -3,6 +3,8 @@ from typing import Optional, TYPE_CHECKING
 
 from hydradxapi.pallets import Pallet
 from hydradxapi.pallets.balances import Balances
+from hydradxapi.pallets.fees import Fees, DynamicFees
+from hydradxapi.pallets.registry import AssetRegistry, Asset
 from hydradxapi.pallets.tokens import Tokens
 
 if TYPE_CHECKING:
@@ -17,10 +19,11 @@ class AssetState:
     protocol_shares: int
     cap: int
     tradability: int
-    asset_id: Optional[int]
+    asset: Optional[Asset]
+    fees: Optional[Fees]
 
     @staticmethod
-    def from_entry(asset_id: int, entry: dict) -> "AssetState":
+    def from_entry(asset: Asset, entry: dict, fees: Fees = None) -> "AssetState":
         return AssetState(
             entry["reserve"],
             entry["hub_reserve"],
@@ -28,11 +31,12 @@ class AssetState:
             entry["protocol_shares"],
             entry["cap"],
             entry["tradable"],
-            asset_id,
+            asset,
+            fees,
         )
 
     def __str__(self):
-        return f"Asset: {self.asset_id}\n\tReserve: {self.reserve}\n\tLRNA: {self.hub_reserve}\n\tShares: {self.shares}\n\tProtocol: {self.protocol_shares}"
+        return f"Asset: {self.asset}\n\tReserve: {self.reserve}\n\tLRNA: {self.hub_reserve}\n\tShares: {self.shares}\n\tProtocol: {self.protocol_shares}\n\tFees: {self.fees}"
 
 
 @dataclass
@@ -60,6 +64,8 @@ class Omnipool(Pallet):
         super().__init__(client)
         self._balances = Balances(self._client)
         self._tokens = Tokens(self._client)
+        self._registry = AssetRegistry(self._client)
+        self._fees = DynamicFees(self._client)
 
     def asset_state(self, asset_id) -> AssetState:
         entry = self.query_entry(
@@ -71,7 +77,11 @@ class Omnipool(Pallet):
             reserve = self._tokens.account_free_balance(self.ACCOUNT, asset_id)
         entry = entry.value.copy()
         entry["reserve"] = reserve
-        return AssetState.from_entry(asset_id, entry)
+
+        asset = self._registry.asset_metadata(asset_id)
+        fees = self._fees.asset_fees(asset_id)
+
+        return AssetState.from_entry(asset, entry, fees)
 
     def lrna_reserve(self):
         return self._tokens.account_free_balance(self.ACCOUNT, 1)

@@ -42,6 +42,14 @@ def position(asset_id):
         print(hydra.api.fees.asset_fees(asset_id))
 
 
+@omnipool.command(name="registry")
+@click.argument("asset_id")
+def registry(asset_id):
+    hydra = HydraDX(HYDRA_MAINNET)
+    with hydra:
+        print(hydra.api.registry.asset_metadata(asset_id))
+
+
 app.add_command(omnipool)
 
 app()
