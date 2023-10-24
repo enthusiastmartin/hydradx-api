@@ -1,11 +1,17 @@
 from hydradxapi import HydraDX
 
+HYDRA_MAINNET = "wss://hydradx-rpc.dwellir.com"
 
 def test_hydradx_init():
-    hydra = HydraDX("url")
-    assert hydra.url == "url"
+    hydra = HydraDX(HYDRA_MAINNET)
+    hydra.connect()
+    s = hydra.api.omnipool.asset_state(0)
+    print(s)
+    hydra.close()
 
-    with hydra:
+    hydra.connect()
 
-        h = hydra.api.omnipool
-        print(h)
+    s = hydra.api.omnipool.asset_state(2)
+    print(s)
+    hydra.close()
+
