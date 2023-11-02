@@ -14,6 +14,9 @@ def app():
 def omnipool():
     pass
 
+@click.group()
+def registry():
+    pass
 
 @omnipool.command(name="state")
 def state():
@@ -49,14 +52,21 @@ def position(asset_id):
         print(hydra.api.fees.asset_fees(asset_id))
 
 
-@omnipool.command(name="registry")
+@registry.command(name="metadata")
 @click.argument("asset_id")
-def registry(asset_id):
+def metadata(asset_id):
     hydra = HydraDX(HYDRA_MAINNET)
     with hydra:
         print(hydra.api.registry.asset_metadata(asset_id))
 
+@registry.command(name="stablepool_assets")
+def stableswap_assets():
+    hydra = HydraDX(HYDRA_MAINNET)
+    with hydra:
+        print(hydra.api.registry.stablepool_assets())
+
 
 app.add_command(omnipool)
+app.add_command(registry)
 
 app()
