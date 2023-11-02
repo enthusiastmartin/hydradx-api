@@ -67,16 +67,24 @@ class Omnipool(Pallet):
         self._registry = AssetRegistry(self._client)
         self._fees = DynamicFees(self._client)
 
+    def state(self) -> dict[int, AssetState]:
+        entries = self.query_entries(self.MODULE_NAME, self.ASSET_STATE_STORAGE)
+        result = {}
+        for entry in entries:
+            asset_id = int(entry[0].value)
+            entry = entry[1].value.copy()
+            entry["reserve"] = self._asset_reserve(asset_id)
+            asset = self._registry.asset_metadata(asset_id)
+            fees = self._fees.asset_fees(asset_id)
+            result[asset_id] = AssetState.from_entry(asset, entry, fees)
+        return result
+
     def asset_state(self, asset_id) -> AssetState:
         entry = self.query_entry(
             self.MODULE_NAME, self.ASSET_STATE_STORAGE, params=[asset_id]
         )
-        if int(asset_id) == 0:
-            reserve = self._balances.account_free_balance(self.ACCOUNT)
-        else:
-            reserve = self._tokens.account_free_balance(self.ACCOUNT, asset_id)
         entry = entry.value.copy()
-        entry["reserve"] = reserve
+        entry["reserve"] = self._asset_reserve(asset_id)
 
         asset = self._registry.asset_metadata(asset_id)
         fees = self._fees.asset_fees(asset_id)
@@ -89,3 +97,11 @@ class Omnipool(Pallet):
     def position(self, position_id) -> Position:
         entry = self.query_entry(self.MODULE_NAME, "Positions", params=[position_id])
         return Position.from_entry(entry)
+
+    def _asset_reserve(self, asset_id) -> int:
+        if int(asset_id) == 0:
+            reserve = self._balances.account_free_balance(self.ACCOUNT)
+        else:
+            reserve = self._tokens.account_free_balance(self.ACCOUNT, asset_id)
+
+        return int(reserve)

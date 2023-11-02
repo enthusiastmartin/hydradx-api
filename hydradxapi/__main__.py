@@ -15,6 +15,13 @@ def omnipool():
     pass
 
 
+@omnipool.command(name="state")
+def state():
+    hydra = HydraDX(HYDRA_MAINNET)
+    with hydra:
+        print(hydra.api.omnipool.state())
+
+
 @omnipool.command(name="asset")
 @click.argument("asset_id")
 def asset(asset_id):

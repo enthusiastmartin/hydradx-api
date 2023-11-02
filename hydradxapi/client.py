@@ -14,7 +14,9 @@ class Client:
             hash = api.get_chain_head()
             api.init_runtime(hash)
         except ConnectionRefusedError as e:
-            raise SubstrateRequestException(f"⚠️ Failed to connect to {self._url}") from e
+            raise SubstrateRequestException(
+                f"⚠️ Failed to connect to {self._url}"
+            ) from e
         except Exception as e:
             raise RuntimeError(str(e)) from e
         self.api = api
