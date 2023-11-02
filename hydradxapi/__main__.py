@@ -14,9 +14,16 @@ def app():
 def omnipool():
     pass
 
+
 @click.group()
 def registry():
     pass
+
+
+@click.group()
+def stableswap():
+    pass
+
 
 @omnipool.command(name="state")
 def state():
@@ -59,6 +66,7 @@ def metadata(asset_id):
     with hydra:
         print(hydra.api.registry.asset_metadata(asset_id))
 
+
 @registry.command(name="stablepool_assets")
 def stableswap_assets():
     hydra = HydraDX(HYDRA_MAINNET)
@@ -66,7 +74,15 @@ def stableswap_assets():
         print(hydra.api.registry.stablepool_assets())
 
 
+@stableswap.command(name="pools")
+def pools():
+    hydra = HydraDX(HYDRA_MAINNET)
+    with hydra:
+        print(hydra.api.stableswap.pools())
+
+
 app.add_command(omnipool)
 app.add_command(registry)
+app.add_command(stableswap)
 
 app()

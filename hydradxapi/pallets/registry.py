@@ -26,9 +26,7 @@ class AssetRegistry(Pallet):
         )
 
     def stablepool_assets(self) -> list[Asset]:
-        entries = self.query_entries(
-            self.MODULE_NAME, "Assets"
-        )
+        entries = self.query_entries(self.MODULE_NAME, "Assets")
 
         result = []
         for entry in entries:
@@ -38,4 +36,3 @@ class AssetRegistry(Pallet):
                 result.append(asset)
 
         return result
-
