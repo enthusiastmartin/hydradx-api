@@ -67,6 +67,13 @@ def metadata(asset_id):
         print(hydra.api.registry.asset_metadata(asset_id))
 
 
+@registry.command(name="all")
+def all_assets():
+    hydra = HydraDX(HYDRA_MAINNET)
+    with hydra:
+        print(hydra.api.registry.assets())
+
+
 @registry.command(name="stablepool_assets")
 def stableswap_assets():
     hydra = HydraDX(HYDRA_MAINNET)

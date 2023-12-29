@@ -8,6 +8,13 @@ class Fees:
     protocol_fee: float
     block: int
 
+    def as_dict(self):
+        return {
+            "asset_fee": str(self.asset_fee),
+            "protocol_fee": str(self.protocol_fee),
+            "block": str(self.block),
+        }
+
 
 class DynamicFees(Pallet):
     MODULE_NAME = "DynamicFees"

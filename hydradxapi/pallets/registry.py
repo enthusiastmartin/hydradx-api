@@ -10,9 +10,30 @@ class Asset:
     decimals: Optional[int]
     symbol: Optional[str]
 
+    def as_dict(self):
+        return {
+            "asset_id": self.asset_id,
+            "decimals": self.decimals,
+            "symbol": self.symbol,
+        }
+
 
 class AssetRegistry(Pallet):
     MODULE_NAME = "AssetRegistry"
+
+    def assets(self) -> dict[int, Asset]:
+        entries = self.query_entries(self.MODULE_NAME, "AssetMetadataMap")
+        result = {}
+        for entry in entries:
+            asset_id = int(entry[0].value)
+            entry = entry[1].value.copy()
+            asset = Asset(
+                asset_id,
+                entry["decimals"],
+                entry["symbol"],
+            )
+            result[asset_id] = asset
+        return result
 
     def asset_metadata(self, asset_id) -> Asset:
         entry = self.query_entry(

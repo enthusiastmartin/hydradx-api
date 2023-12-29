@@ -38,6 +38,18 @@ class AssetState:
     def __str__(self):
         return f"Asset: {self.asset}\n\tReserve: {self.reserve}\n\tLRNA: {self.hub_reserve}\n\tShares: {self.shares}\n\tProtocol: {self.protocol_shares}\n\tFees: {self.fees}"
 
+    def as_dict(self):
+        return {
+            "reserve": str(self.reserve),
+            "hub_reserve": str(self.hub_reserve),
+            "shares": str(self.shares),
+            "protocol_shares": str(self.protocol_shares),
+            "cap": str(self.cap),
+            "tradability": str(self.tradability),
+            "asset": self.asset.as_dict(),
+            "fees": self.fees.as_dict(),
+        }
+
 
 @dataclass
 class Position:
