@@ -85,7 +85,8 @@ def stableswap_assets():
 def pools():
     hydra = HydraDX(HYDRA_MAINNET)
     with hydra:
-        print(hydra.api.stableswap.pools())
+        for pool_id, pool in hydra.api.stableswap.pools().items():
+            print(pool.as_dict())
 
 
 app.add_command(omnipool)

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional, TYPE_CHECKING, List
+from typing import TYPE_CHECKING, List
 
 from hydradxapi.pallets import Pallet
 from hydradxapi.pallets.balances import Balances
@@ -11,6 +11,9 @@ if TYPE_CHECKING:
     from hydradxapi.client import Client
 
 
+POOL_ACCOUNTS = {100: "5CrF36Ep1qfkBe6T5f1oMK7wvvUCcyCJPpGaGTohsJXStNKA"}
+
+
 @dataclass
 class Pool:
     pool_id: int
@@ -20,6 +23,21 @@ class Pool:
     initial_block: int
     final_block: int
     fee: float
+    reserves: dict[int, str]
+    account: str
+
+    def as_dict(self):
+        return {
+            "pool_id": self.pool_id,
+            "assets": [asset.as_dict() for asset in self.assets],
+            "initial_amplification": self.initial_amplification,
+            "final_amplification": self.final_amplification,
+            "initial_block": self.initial_block,
+            "final_block": self.final_block,
+            "fee": self.fee,
+            "reserves": self.reserves,
+            "account": self.account,
+        }
 
 
 class StableSwap(Pallet):
@@ -45,6 +63,19 @@ class StableSwap(Pallet):
             fee = int(entry[1]["fee"].value) / 10000
 
             s_assets = [self._registry.asset_metadata(int(asset)) for asset in assets]
+
+            try:
+                pool_account = POOL_ACCOUNTS[int(pool_id)]
+                reserves = {}
+                for asset in assets:
+                    balance = self._tokens.account_free_balance(
+                        pool_account, int(asset)
+                    )
+                    reserves[int(asset)] = str(balance)
+            except:
+                reserves = {}
+                pool_account = ""
+
             result[int(pool_id)] = Pool(
                 pool_id,
                 s_assets,
@@ -53,6 +84,8 @@ class StableSwap(Pallet):
                 int(i_block),
                 int(f_block),
                 fee,
+                reserves,
+                pool_account,
             )
 
         return result
