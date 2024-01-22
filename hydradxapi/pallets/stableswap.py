@@ -11,7 +11,8 @@ if TYPE_CHECKING:
     from hydradxapi.client import Client
 
 
-POOL_ACCOUNTS = {100: "5CrF36Ep1qfkBe6T5f1oMK7wvvUCcyCJPpGaGTohsJXStNKA"}
+POOL_ACCOUNTS = {100: "5CrF36Ep1qfkBe6T5f1oMK7wvvUCcyCJPpGaGTohsJXStNKA",
+                 101: "5G3Ty7aKmFhMZSYLNRVNLbtsSSfkagB7ZuYyate9mxq7paqt"}
 
 
 @dataclass
