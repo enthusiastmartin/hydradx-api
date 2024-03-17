@@ -22,7 +22,7 @@ class AssetRegistry(Pallet):
     MODULE_NAME = "AssetRegistry"
 
     def assets(self) -> dict[int, Asset]:
-        entries = self.query_entries(self.MODULE_NAME, "AssetMetadataMap")
+        entries = self.query_entries(self.MODULE_NAME, "Assets")
         result = {}
         for entry in entries:
             asset_id = int(entry[0].value)
@@ -37,7 +37,7 @@ class AssetRegistry(Pallet):
 
     def asset_metadata(self, asset_id) -> Asset:
         entry = self.query_entry(
-            self.MODULE_NAME, "AssetMetadataMap", params=[asset_id]
+            self.MODULE_NAME, "Assets", params=[asset_id]
         )
         entry = entry.value
         return Asset(
