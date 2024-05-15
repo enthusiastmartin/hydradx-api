@@ -10,4 +10,4 @@ class Tokens(Pallet):
         )["free"].value
 
     def total_issuance(self, asset_id) -> int:
-        return self.query_entry(self.MODULE_NAME, "TotalIssuance", params=[asset_id])
+        return self.query_entry(self.MODULE_NAME, "TotalIssuance", params=[asset_id]).value
