@@ -27,3 +27,14 @@ def test_total_issuance():
     if not total > 0:
         raise AssertionError("No issuance found for BTC 2-Pool.")
     hydra.close()
+
+
+def test_get_shares():
+    hydra = HydraDX(HYDRA_MAINNET)
+    hydra.connect()
+    pools = hydra.api.stableswap.pools()
+    shares = pools[101].shares
+    print(shares)
+    if not shares > 0:
+        raise AssertionError("No shares found for Pool 101.")
+    hydra.close()
