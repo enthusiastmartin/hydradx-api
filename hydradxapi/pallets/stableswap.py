@@ -26,6 +26,7 @@ class Pool:
     final_block: int
     fee: float
     reserves: dict[int, str]
+    shares: int
     account: str
 
     def as_dict(self):
@@ -38,6 +39,7 @@ class Pool:
             "final_block": self.final_block,
             "fee": self.fee,
             "reserves": self.reserves,
+            "shares": self.shares,
             "account": self.account,
         }
 
@@ -65,7 +67,7 @@ class StableSwap(Pallet):
             fee = int(entry[1]["fee"].value) / 10000
 
             s_assets = [self._registry.asset_metadata(int(asset)) for asset in assets]
-
+            shares = self._tokens.total_issuance(int(pool_id))
             try:
                 pool_account = POOL_ACCOUNTS[int(pool_id)]
                 reserves = {}
@@ -87,6 +89,7 @@ class StableSwap(Pallet):
                 int(f_block),
                 fee,
                 reserves,
+                shares,
                 pool_account,
             )
 
