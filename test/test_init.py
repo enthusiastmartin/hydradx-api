@@ -1,4 +1,5 @@
 from hydradxapi import HydraDX
+from hydradxapi.pallets.oracle import OraclePeriod, OracleSource
 
 HYDRA_MAINNET = "wss://hydradx-rpc.dwellir.com"
 
@@ -38,3 +39,21 @@ def test_get_shares():
     if not shares > 0:
         raise AssertionError("No shares found for Pool 101.")
     hydra.close()
+
+
+def test_last_block_omnipool_oracle_price():
+    hydra = HydraDX(HYDRA_MAINNET)
+    hydra.connect()
+    result = hydra.api.oracle.omnipool_oracle_price(0, OraclePeriod.LAST_BLOCK)
+    hydra.close()
+    print(result)
+    assert result is not None
+
+
+def test_short_omnipool_oracle_price():
+    hydra = HydraDX(HYDRA_MAINNET)
+    hydra.connect()
+    result = hydra.api.oracle.omnipool_oracle_price(0, OraclePeriod.SHORT)
+    hydra.close()
+    print(result)
+    assert result is not None
