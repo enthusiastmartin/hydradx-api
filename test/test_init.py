@@ -57,3 +57,12 @@ def test_short_omnipool_oracle_price():
     hydra.close()
     print(result)
     assert result is not None
+
+
+def test_staking_position_votes():
+    hydra = HydraDX(HYDRA_MAINNET)
+    hydra.connect()
+    result = hydra.api.staking.position_votes()
+    hydra.close()
+    print(result)
+    assert result is not None

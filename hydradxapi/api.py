@@ -3,6 +3,7 @@ from hydradxapi.pallets.omnipool import Omnipool
 from hydradxapi.pallets.oracle import Oracle
 from hydradxapi.pallets.registry import AssetRegistry
 from hydradxapi.pallets.stableswap import StableSwap
+from hydradxapi.pallets.staking import Staking
 from hydradxapi.pallets.tokens import Tokens
 
 
@@ -37,3 +38,7 @@ class API:
     @property
     def oracle(self):
         return Oracle(self._client)
+
+    @property
+    def staking(self):
+        return Staking(self._client)
