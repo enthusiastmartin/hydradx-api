@@ -66,3 +66,12 @@ def test_staking_position_votes():
     hydra.close()
     print(result)
     assert result is not None
+
+
+def test_staking_processed_votes():
+    hydra = HydraDX(HYDRA_MAINNET)
+    hydra.connect()
+    result = hydra.api.staking.processed_votes()
+    hydra.close()
+    print(len(result))
+    assert result is not None

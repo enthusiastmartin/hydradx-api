@@ -16,6 +16,13 @@ class PositionVote:
     votes: List[Vote]
 
 
+@dataclass
+class ProcessedVote:
+    who: str
+    referendum_id: int
+    amount: int
+
+
 class Staking(Pallet):
     MODULE_NAME = "Staking"
 
@@ -32,4 +39,14 @@ class Staking(Pallet):
                 votes.append(Vote(ref_id, amount))
             if len(votes) > 0:
                 result.append(PositionVote(position_id, votes))
+        return result
+
+    def processed_votes(self) -> [ProcessedVote]:
+        entries = self.query_entries(self.MODULE_NAME, "ProcessedVotes")
+        result = []
+        for entry in entries:
+            account = str(entry[0][0])
+            ref_id = int(entry[0][1].value)
+            amount = entry[1].value.copy()["amount"]
+            result.append(ProcessedVote(account, ref_id, amount))
         return result
