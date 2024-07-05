@@ -19,7 +19,7 @@ class PositionVote:
 class Staking(Pallet):
     MODULE_NAME = "Staking"
 
-    def position_votes(self) -> [Vote]:
+    def position_votes(self) -> [PositionVote]:
         entries = self.query_entries(self.MODULE_NAME, "PositionVotes")
         result = []
         for entry in entries:
