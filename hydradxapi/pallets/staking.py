@@ -30,5 +30,6 @@ class Staking(Pallet):
                 ref_id = vote_entry[0]
                 amount = vote_entry[1]["amount"]
                 votes.append(Vote(ref_id, amount))
-            result.append(PositionVote(position_id, votes))
+            if len(votes) > 0:
+                result.append(PositionVote(position_id, votes))
         return result
