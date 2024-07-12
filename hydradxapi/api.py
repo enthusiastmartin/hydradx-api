@@ -1,3 +1,4 @@
+from hydradxapi.pallets.democracy import Democracy
 from hydradxapi.pallets.fees import DynamicFees
 from hydradxapi.pallets.omnipool import Omnipool
 from hydradxapi.pallets.oracle import Oracle
@@ -5,6 +6,7 @@ from hydradxapi.pallets.registry import AssetRegistry
 from hydradxapi.pallets.stableswap import StableSwap
 from hydradxapi.pallets.staking import Staking
 from hydradxapi.pallets.tokens import Tokens
+from hydradxapi.pallets.uniques import Uniques
 
 
 class API:
@@ -42,3 +44,11 @@ class API:
     @property
     def staking(self):
         return Staking(self._client)
+
+    @property
+    def uniques(self):
+        return Uniques(self._client)
+
+    @property
+    def democracy(self):
+        return Democracy(self._client)

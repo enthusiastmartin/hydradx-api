@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from hydradxapi import HydraDX
 from hydradxapi.pallets.oracle import OraclePeriod, OracleSource
 
@@ -75,3 +77,39 @@ def test_staking_processed_votes():
     hydra.close()
     print(len(result))
     assert result is not None
+
+
+def test_call_value():
+    hydra = HydraDX(HYDRA_MAINNET)
+    hydra.connect()
+
+    votes = hydra.api.staking.position_votes()
+
+    rv_batch = []
+
+    for vote in votes[:2]:
+        position_id = vote.position_id
+        nft = hydra.api.uniques.asset(2222, position_id)
+        for v in vote.votes:
+            ref_index = v.referendum_id
+
+            @lru_cache
+            def is_referendum_finished(index) -> bool:
+                referendum = hydra.api.democracy.referendum_info(index)
+                return "Finished" in referendum.keys()
+
+            if is_referendum_finished(ref_index):
+                call = hydra._client.api.compose_call(
+                    call_module="Democracy",
+                    call_function="remove_other_vote",
+                    call_params={"target": nft["owner"], "index": v.referendum_id},
+                )
+                rv_batch.append(call)
+
+    call = hydra._client.api.compose_call(
+        call_module="Utility", call_function="batch", call_params={"calls": rv_batch}
+    )
+
+    print(f"{call.encode()}")
+
+    hydra.close()
