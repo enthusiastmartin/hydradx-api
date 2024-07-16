@@ -4,10 +4,13 @@ from hydradxapi import HydraDX
 from hydradxapi.pallets.oracle import OraclePeriod, OracleSource
 
 HYDRA_MAINNET = "wss://hydradx-rpc.dwellir.com"
+LOCAL = "ws://127.0.0.1:8000"
+
+RPC = LOCAL
 
 
 def test_hydradx_init():
-    hydra = HydraDX(HYDRA_MAINNET)
+    hydra = HydraDX(RPC)
 
     # HDX
     hydra.connect()
@@ -23,7 +26,7 @@ def test_hydradx_init():
 
 
 def test_total_issuance():
-    hydra = HydraDX(HYDRA_MAINNET)
+    hydra = HydraDX(RPC)
     hydra.connect()
     total = hydra.api.tokens.total_issuance(101)
     print(total)
@@ -33,7 +36,7 @@ def test_total_issuance():
 
 
 def test_get_shares():
-    hydra = HydraDX(HYDRA_MAINNET)
+    hydra = HydraDX(RPC)
     hydra.connect()
     pools = hydra.api.stableswap.pools()
     shares = pools[101].shares
@@ -44,7 +47,7 @@ def test_get_shares():
 
 
 def test_last_block_omnipool_oracle_price():
-    hydra = HydraDX(HYDRA_MAINNET)
+    hydra = HydraDX(RPC)
     hydra.connect()
     result = hydra.api.oracle.omnipool_oracle_price(0, OraclePeriod.LAST_BLOCK)
     hydra.close()
@@ -53,7 +56,7 @@ def test_last_block_omnipool_oracle_price():
 
 
 def test_short_omnipool_oracle_price():
-    hydra = HydraDX(HYDRA_MAINNET)
+    hydra = HydraDX(RPC)
     hydra.connect()
     result = hydra.api.oracle.omnipool_oracle_price(0, OraclePeriod.SHORT)
     hydra.close()
@@ -62,7 +65,7 @@ def test_short_omnipool_oracle_price():
 
 
 def test_staking_position_votes():
-    hydra = HydraDX(HYDRA_MAINNET)
+    hydra = HydraDX(RPC)
     hydra.connect()
     result = hydra.api.staking.position_votes()
     hydra.close()
@@ -71,7 +74,7 @@ def test_staking_position_votes():
 
 
 def test_staking_processed_votes():
-    hydra = HydraDX(HYDRA_MAINNET)
+    hydra = HydraDX(RPC)
     hydra.connect()
     result = hydra.api.staking.processed_votes()
     hydra.close()
@@ -80,7 +83,7 @@ def test_staking_processed_votes():
 
 
 def test_call_value():
-    hydra = HydraDX(HYDRA_MAINNET)
+    hydra = HydraDX(RPC)
     hydra.connect()
 
     votes = hydra.api.staking.position_votes()
@@ -99,6 +102,7 @@ def test_call_value():
                 return "Finished" in referendum.keys()
 
             if is_referendum_finished(ref_index):
+                # print(f"{nft['owner']} : {v.referendum_id}")
                 call = hydra._client.api.compose_call(
                     call_module="Democracy",
                     call_function="remove_other_vote",
