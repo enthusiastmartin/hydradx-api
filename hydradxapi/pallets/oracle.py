@@ -29,6 +29,9 @@ class Price:
     def __str__(self):
         return f"Price({self.n},{self.n})"
 
+    def to_float(self):
+        return self.n / self.d
+
 
 class Oracle(Pallet):
     MODULE_NAME = "EmaOracle"
@@ -52,4 +55,4 @@ class Oracle(Pallet):
     def omnipool_oracle_price(
         self, asset: int, period: OraclePeriod
     ) -> Optional[Price]:
-        return self.oracle_price(OracleSource.OMNIPOOL, asset, self.LRNA, period)
+        return self.oracle_price(OracleSource.OMNIPOOL, self.LRNA, asset, period)

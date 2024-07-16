@@ -7,9 +7,14 @@ class Client:
         self._url = url
 
     def connect(self):
+        custom_type_registry = {"types": {"Address": "AccountId"}}
+
         try:
             api = SubstrateInterface(
-                url=self._url, type_registry_preset="polkadot", auto_reconnect=True
+                url=self._url,
+                type_registry_preset="polkadot",
+                type_registry=custom_type_registry,
+                auto_reconnect=True,
             )
             hash = api.get_chain_head()
             api.init_runtime(hash)

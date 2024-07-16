@@ -117,3 +117,7 @@ class Omnipool(Pallet):
             reserve = self._tokens.account_free_balance(self.ACCOUNT, asset_id)
 
         return int(reserve)
+
+    def next_position_id(self) -> int:
+        entry = self.query_entry(self.MODULE_NAME, "NextPositionId", params={})
+        return entry.value
